@@ -10,14 +10,12 @@ import Login from './containers/Login/Login';
 
 function App() {
   return (
-    <div>
-      <Router>
-        <Switch>
-          <Route exact path="/" component={Login} />
-          <Redirect to="/" />
-        </Switch>
-      </Router>
-    </div>
+    <Router>
+      <Switch>
+        <Route exact path="/" component={Login} />
+        <Redirect to="/" />
+      </Switch>
+    </Router>
   );
 }
 
