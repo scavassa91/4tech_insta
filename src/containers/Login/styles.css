@@ -9,3 +9,9 @@
 .login .paper {
     padding: 2rem 2rem;
 }
+
+.login .loginButtons {
+    display: flex;
+    margin-top: 1rem;
+    justify-content: space-between;
+}
