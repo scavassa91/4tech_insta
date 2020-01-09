@@ -1,25 +1,41 @@
 import React, { useState } from 'react';
 import { Grid, Paper, TextField, Button, Typography } from '@material-ui/core';
+import { useHistory } from 'react-router-dom';
+
+import { auth } from '../../services/auth';
+import { user } from '../../services/user';
 
 import './styles.css';
 
 const Login = () => {
+    const history = useHistory();
     const [isLogin, setIsLogin] = useState(true);
+    const [fullName, setFullName] = useState('');
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
 
-    const onFormLoginSubmit = (event) => {
+    const onFormLoginSubmit = async (event) => {
         event.preventDefault();
-        console.log('Login');
+        const resp = await auth.login(userName, password);
+        if (resp.status >= 200 && resp.status < 300) {
+            history.push('/timeline');
+        } else {
+            console.log('User name ou password inválidos');
+        }
     };
 
     const onFormSignInSubmit = (event) => {
         event.preventDefault();
-        console.log('Sign in');
+        user.save(userName, fullName, password);
+        onSignUpInHandle();
     };
 
     const onSignUpInHandle = () => {
         setIsLogin(!isLogin);
+    };
+
+    const onFullNameChange = (event) => {
+        setFullName(event.target.value);
     };
 
     const onUserNameChange = (event) => {
@@ -62,15 +78,23 @@ const Login = () => {
         return (
             <form onSubmit={onFormSignInSubmit}>
                 <TextField
+                    id="fullName"
+                    label="Full Name"
+                    value={fullName}
+                    onChange={onFullNameChange}
+                    required />
+                <TextField
                     id="userName"
                     label="User Name"
                     value={userName}
+                    onChange={onUserNameChange}
                     required />
                 <TextField
                     type="password"
                     id="password"
                     label="Password"
                     value={password}
+                    onChange={onPasswordChange}
                     required />
                 <div className="loginButtons">
                     <Button type="submit" color="primary">Register</Button>
