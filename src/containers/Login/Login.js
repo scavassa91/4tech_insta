@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Grid, Paper, TextField, Button, Typography } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 
-import { auth } from '../../services/auth';
+import { login } from '../../services/auth';
 import { user } from '../../services/user';
 
 import './styles.css';
@@ -16,7 +16,7 @@ const Login = () => {
 
     const onFormLoginSubmit = async (event) => {
         event.preventDefault();
-        const resp = await auth.login(userName, password);
+        const resp = await login(userName, password);
         if (resp.status >= 200 && resp.status < 300) {
             history.push('/timeline');
         } else {
@@ -113,7 +113,7 @@ const Login = () => {
             <Grid item xs={2}>
                 <Paper className="paper">
                     <Typography variant="h6" gutterBottom>
-                        4TInsta
+                        4T Insta
                     </Typography>
                     { isLogin ? renderLogin() : renderSignIn() }
                 </Paper>

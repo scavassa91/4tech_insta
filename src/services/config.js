@@ -6,24 +6,15 @@ export const axios4Tech = axios.create({
 });
 
 axios4Tech.interceptors.request.use((config) => {
-    const token = getToken();
+    const token = localStorage.getItem("token");
 
     if (token) {
-        config.headers["Authorization"] = `Bearer ${getToken()}`;
+        config.headers.Authorization = `Bearer ${token}`;
     }
 
     return config;
 });
 
 axios4Tech.interceptors.response.use(null, (error) => {
-    console.log(error.response);
     return Promise.reject(error);
 });
-
-export const setToken = (token) => {
-    localStorage.setItem("token", token);
-};
-
-const getToken = () => {
-    return localStorage.getItem("token");
-}
