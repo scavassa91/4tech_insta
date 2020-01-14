@@ -110,7 +110,7 @@ const Login = () => {
 
     return (
         <div className="login">
-            <Grid item xs={2}>
+            <Grid item xs={2} className="grid">
                 <Paper className="paper">
                     <Typography variant="h6" gutterBottom>
                         4T Insta

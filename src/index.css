@@ -11,3 +11,11 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #d6d6d6;
+  margin: .5rem 0;
+  padding: 0;
+}

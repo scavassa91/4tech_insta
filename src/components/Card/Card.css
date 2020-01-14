@@ -1,0 +1,37 @@
+.card.grid {
+    margin: 0 auto;
+    max-width: 750px;
+    padding-bottom: 2rem;
+}
+
+.card .user {
+    align-items: center;
+    display: flex;
+    padding: .5rem 1rem;
+}
+
+.card .username {
+    flex: 1;
+    padding: 0 .5rem;
+}
+
+.card .image {
+    width: 100%;
+}
+
+.card .body {
+    padding: .5rem 1rem;
+}
+
+.card .like {
+    display: flex;
+}
+
+.card .people {
+    flex: 1;
+}
+
+.card .post {
+    display: flex;
+    padding: 0 1rem .5rem;
+}
