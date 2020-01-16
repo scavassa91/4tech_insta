@@ -36,10 +36,16 @@
     display: none;
 }
 
+.paper .droparea > div {
+    margin: 0;
+    width: auto;
+}
+
 .paper .droparea > div > div,
 .paper .droparea > div > div > img {
     width: 100%;
     height: auto;
     max-width: 100%;
     flex-basis: 100%;
+    padding: 0;
 }
