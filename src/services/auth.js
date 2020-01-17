@@ -7,6 +7,7 @@ export const login = async (user, password) => {
             password: password
         });
         localStorage.setItem("token", response.data.access_token);
+        localStorage.setItem("userId", response.data._id);
         return response;
     } catch (err) {
         return err.response.status;
@@ -18,5 +19,6 @@ export const isAuthenticated = () => {
 }
 
 export const logout = () => {
+    localStorage.removeItem("userId");
     localStorage.removeItem("token");
 };
