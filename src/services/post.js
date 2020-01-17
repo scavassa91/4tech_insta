@@ -13,3 +13,7 @@ export const uploadImage = (image, comment) => {
         }
     });
 }
+
+export const getPosts = (page = 0) => {
+    return axios4Tech.get(`user-activity/${page}`);
+}

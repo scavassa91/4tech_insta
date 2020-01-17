@@ -2,11 +2,11 @@ import React from 'react';
 
 import { Typography } from '@material-ui/core';
 
-const Comment = () => {
+const Comment = ({comment}) => {
     return (
         <Typography variant="body2">
-            <b>José: </b>
-            <label>Foto Legal dshd kjahd shdjkashdkjashd kjahdkjh dsakjhd sakjhd askjhd skhd askjhdsakd hakjdhsjk</label>
+            <b>{comment.userName}: </b>
+            <label>{comment.comment}</label>
         </Typography>
     );
 }

@@ -1,6 +1,6 @@
 import React, { useState, Fragment } from 'react';
 
-import { uploadImage } from '../../services/upload';
+import { uploadImage } from '../../services/post';
 
 import Loading from '../Loading/Loading';
 

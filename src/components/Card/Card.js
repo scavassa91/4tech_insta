@@ -5,7 +5,7 @@ import { AccountCircle, FavoriteBorder, Favorite } from '@material-ui/icons';
 import './Card.css';
 import Comment from '../Comment/Comment';
 
-const Card = () => {
+const Card = ({post}) => {
     const [comment, setComment] = useState('');
     const [isLiked, setIsLiked] = useState(false);
 
@@ -28,16 +28,20 @@ const Card = () => {
             <Paper className="paper">
                 <div className="user">
                     <AccountCircle />
-                    <Typography className="username" variant="subtitle2">Danilo Scavassa</Typography>
+                    <Typography className="username" variant="subtitle2">{post.userName}</Typography>
                 </div>
-                <img className="image" src="https://images.unsplash.com/photo-1527554677374-236d3bc88a34?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80" alt="test"></img>
+                <img className="image" src={`data:image/jpeg;base64,${post.imgEncoded}`} alt={post.userName}></img>
                 <section className="body">
                     <div className="like">
-                        <Typography className="people" variant="body2">Liekd by 10 people</Typography>
+                        <Typography className="people" variant="body2">Liekd by {post.likes.length} people</Typography>
                         { isLiked ? <Favorite onClick={onFavoriteHandle} /> : <FavoriteBorder onClick={onFavoriteHandle} /> }
                     </div>
                     <div className="comments">
-                        <Comment />
+                        {
+                            post.mediaComments.map(comment => {
+                                return <Comment key={comment._id} comment={comment} />;
+                            })
+                        }
                     </div>
                 </section>
                 <hr />
