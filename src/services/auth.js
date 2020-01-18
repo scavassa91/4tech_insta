@@ -10,7 +10,10 @@ export const login = async (user, password) => {
         localStorage.setItem("userId", response.data._id);
         return response;
     } catch (err) {
-        return err.response.status;
+        if (err.response) {
+            return err.response.status
+        }
+        return 500;
     }
 };
 

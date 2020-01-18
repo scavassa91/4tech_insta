@@ -1,27 +1,54 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Grid, Paper, Typography, InputBase, Button } from '@material-ui/core';
 import { AccountCircle, FavoriteBorder, Favorite } from '@material-ui/icons';
 
-import './Card.css';
+import { sendComment, sendLike } from '../../services/post';
+
 import Comment from '../Comment/Comment';
 
-const Card = ({post}) => {
+import './Card.css';
+
+const Card = ({post, onSuccess}) => {
     const [comment, setComment] = useState('');
     const [isLiked, setIsLiked] = useState(false);
 
+    const haveLiked = useCallback(() => {
+        const myUserId = localStorage.getItem('userId');
+        const found = post.likes.find(userId => userId === myUserId);
+        if (found) {
+            setIsLiked(true);
+        } else {
+            setIsLiked(false);
+        }
+    }, [post.likes]);
+
     const onFavoriteHandle = () => {
         setIsLiked(!isLiked);
-        console.log('Favorite');
+        sendLike(localStorage.getItem('userId'), post._id)
+            .then(() => {
+                onSuccess();
+            })
+            .catch(() => {
+                setIsLiked(!isLiked);
+            });
     };
 
     const onCommentChange = (event) => {
         setComment(event.target.value);
     };
 
-    const onPostSubmit = (event) => {
+    const onPostSubmit = async (event) => {
         event.preventDefault();
-        console.log('Submited post');
+        const response = await sendComment(localStorage.getItem('userId'), post._id, comment);
+        if (response.status >= 200 && response.status < 300) {
+            setComment('');
+            onSuccess();
+        }
     };
+
+    useEffect(() => {
+        haveLiked();
+    }, [haveLiked]);
 
     return (
         <Grid item xs={12} className="grid card">

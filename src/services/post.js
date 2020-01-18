@@ -16,3 +16,18 @@ export const uploadImage = (image, comment) => {
 export const getPosts = (page = 0) => {
     return axios4Tech.get(`user-activity/${page}`);
 }
+
+export const sendComment = (userId, mediaId, comment) => {
+    return axios4Tech.put('user-activity/comment-in-activity', {
+        userId,
+        mediaId,
+        comment
+    });
+}
+
+export const sendLike = (userId, mediaId) => {
+    return axios4Tech.put('user-activity/like-or-dislike', {
+        userId,
+        mediaId
+    });
+}

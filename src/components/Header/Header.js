@@ -1,6 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { AppBar, Toolbar, Typography, Button, Container } from '@material-ui/core';
+import { AppBar, Toolbar, Typography, Container, IconButton } from '@material-ui/core';
+import { ExitToApp } from '@material-ui/icons';
 
 import { logout } from '../../services/auth';
 
@@ -21,7 +22,9 @@ const Header = () => {
                     <Typography variant="h6">
                         4T Insta
                     </Typography>
-                    <Button onClick={onLogoutHandle} color="inherit">Logout</Button>
+                    <IconButton color="inherit" aria-label="logou" onClick={onLogoutHandle}>
+                        <ExitToApp />
+                    </IconButton>
                 </Toolbar>
             </Container>
         </AppBar>

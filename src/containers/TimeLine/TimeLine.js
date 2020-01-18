@@ -16,6 +16,7 @@ const TimeLine = () => {
 
     const fetchPosts = async () => {
         const response = await getPosts();
+        console.log(response);
         if (response.status >= 200 && response.status < 300) {
             setPosts(response.data);
         }
@@ -34,7 +35,7 @@ const TimeLine = () => {
                     posts
                         .reverse()
                         .map(post => {
-                            return <Card key={post._id} post={post} />
+                            return <Card key={post._id} post={post} onSuccess={fetchPosts} />
                         })
                 }
             </Container>
