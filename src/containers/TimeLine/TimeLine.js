@@ -14,15 +14,14 @@ import './TimeLine.css';
 const TimeLine = () => {
     const [posts, setPosts] = useState([]);
 
+    const fetchPosts = async () => {
+        const response = await getPosts();
+        if (response.status >= 200 && response.status < 300) {
+            setPosts(response.data);
+        }
+    };
+
     useEffect(() => {
-        const fetchPosts = async () => {
-            const response = await getPosts();
-            if (response.status >= 200 && response.status < 300) {
-                setPosts(post => {
-                    return post.concat(response.data);
-                });
-            }
-        };
         fetchPosts();
     }, []);
 
@@ -30,11 +29,13 @@ const TimeLine = () => {
         <Fragment>
             <Header />
             <Container className="timeline">
-                <PostCard />
+                <PostCard onSuccess={fetchPosts} />
                 {
-                    posts.map(post => {
-                        return <Card key={post._id} post={post} />
-                    })
+                    posts
+                        .reverse()
+                        .map(post => {
+                            return <Card key={post._id} post={post} />
+                        })
                 }
             </Container>
         </Fragment>

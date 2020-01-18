@@ -10,7 +10,7 @@ import { DropzoneArea } from 'material-ui-dropzone'
 
 import './PostCard.css';
 
-const PostCard = () => {
+const PostCard = ({onSuccess}) => {
     const [image, setImage] = useState([]);
     const [comment, setComment] = useState('');
     const [isLoading, setIsloading] = useState(false);
@@ -24,6 +24,8 @@ const PostCard = () => {
         if (response.status >= 200 && response.status < 300) {
             setImage([]);
             setComment('');
+            document.querySelector(".droparea button").click();
+            onSuccess();
         }
         setStatus(response.status);
         setIsloading(false);
@@ -65,6 +67,7 @@ const PostCard = () => {
                             type="submit"
                             color="primary"
                             disabled={image.length === 0}>Post</Button>
+                        <Loading open={isLoading} />
                     </form>
                 </Paper>
             </Grid>
@@ -87,7 +90,6 @@ const PostCard = () => {
                     </IconButton>
                 }
             />
-            <Loading open={isLoading} />
         </Fragment>
     );
 };
