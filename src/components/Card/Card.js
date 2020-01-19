@@ -25,9 +25,6 @@ const Card = ({post, onSuccess}) => {
     const onFavoriteHandle = () => {
         setIsLiked(!isLiked);
         sendLike(localStorage.getItem('userId'), post._id)
-            .then(() => {
-                onSuccess();
-            })
             .catch(() => {
                 setIsLiked(!isLiked);
             });
@@ -42,7 +39,13 @@ const Card = ({post, onSuccess}) => {
         const response = await sendComment(localStorage.getItem('userId'), post._id, comment);
         if (response.status >= 200 && response.status < 300) {
             setComment('');
-            onSuccess();
+            onSuccess(post._id, {
+                timestamp: "2020-01-16T18:16:48.737Z",
+                _id: "5e2116c32725ae0568a7d63d",
+                userId: "5e1692a24010120bd049c058",
+                userName: "Danilo Scavassa",
+                comment: "Iabadabaduuuu!!"
+            });
         }
     };
 
