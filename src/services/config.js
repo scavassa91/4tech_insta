@@ -16,6 +16,5 @@ axios4Tech.interceptors.request.use((config) => {
 });
 
 axios4Tech.interceptors.response.use(null, (error) => {
-    console.log(error);
     return Promise.reject(error);
 });

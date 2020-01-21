@@ -11,15 +11,12 @@ import PostCard from '../../components/PostCard/PostCard';
 
 import './TimeLine.css';
 
-const socket = io('http://172.25.40.72:3000/');
-
 const TimeLine = () => {
     const [posts, setPosts] = useState([]);
     const [page, setPage] = useState(0);
 
     const fetchPosts = useCallback(async (page = 0) => {
         const response = await getPosts(page);
-        console.log(response);
         if (response.status >= 200 && response.status < 300) {
             setPosts((posts) => {
                 return posts.concat(response.data);
@@ -71,35 +68,34 @@ const TimeLine = () => {
     };
 
     useEffect(() => {
-        console.log('called');
+        const socket = io('http://172.25.40.72:3000/');
 
-        // TODO: Check how to know if event is up
         socket.on('events', resp => {
-            const updatedPosts = posts.map(post => {
-                
-                if (post._id === resp.mediaId) {
-                    console.log('post founded')
-                    const foundLike = post.likes.find(like => like === resp.userId);
-
-                    let updatedLikes;
-                    if (foundLike) {
-                        console.log('like founded');
-                        updatedLikes = post.likes.find(like => like !== resp.userId);
-                    } else {
-                        console.log('like notfounded');
-                        updatedLikes = post.likes.concat(resp.userId);
+            setPosts(oldPosts => {
+                return oldPosts.map(post => {
+                    if (post._id === resp.mediaId) {
+                        const foundLike = post.likes.find(like => like === resp.userId);
+    
+                        let updatedLikes;
+                        if (foundLike) {
+                            updatedLikes = post.likes.filter(like => like !== resp.userId);
+                        } else {
+                            updatedLikes = post.likes.concat(resp.userId);
+                        }
+                        return {
+                            ...post,
+                            likes: updatedLikes
+                        };
                     }
-                    return {
-                        ...post,
-                        likes: updatedLikes
-                    };
-                }
-                return post;
+                    return post;
+                });
             });
-
-            setPosts(updatedPosts);
         });
-    }, [posts]);
+
+        return (() => {
+            socket.close();
+        });
+    }, []);
 
     return (
         <Fragment>
@@ -108,7 +104,11 @@ const TimeLine = () => {
                 <PostCard onSuccess={addNewPsot} />
                 {
                     posts.map(post => {
-                        return <Card key={post._id} post={post} onSuccess={addNewComment} />
+                        return (
+                            <Card
+                                key={post._id}
+                                post={post}
+                                onCommentSuccess={addNewComment} />);
                     })
                 }
             </Container>

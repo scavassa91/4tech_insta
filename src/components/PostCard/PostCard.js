@@ -27,7 +27,6 @@ const PostCard = ({onSuccess}) => {
             document.querySelector(".droparea button").click();
             onSuccess(response.data);
         }
-        console.log(response);
         setStatus(response.status);
         setIsloading(false);
         setSnackOpen(true);

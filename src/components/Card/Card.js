@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+
 import { Grid, Paper, Typography, InputBase, Button } from '@material-ui/core';
 import { AccountCircle, FavoriteBorder, Favorite } from '@material-ui/icons';
 
@@ -8,7 +9,7 @@ import Comment from '../Comment/Comment';
 
 import './Card.css';
 
-const Card = ({post, onSuccess}) => {
+const Card = ({post, onCommentSuccess}) => {
     const [comment, setComment] = useState('');
     const [isLiked, setIsLiked] = useState(false);
 
@@ -34,13 +35,12 @@ const Card = ({post, onSuccess}) => {
         setComment(event.target.value);
     };
 
-    const onPostSubmit = async (event) => {
+    const onCommentSubmit = async (event) => {
         event.preventDefault();
         const response = await sendComment(localStorage.getItem('userId'), post._id, comment);
-        console.log(response);
         if (response.status >= 200 && response.status < 300) {
             setComment('');
-            onSuccess(post._id, response.data);
+            onCommentSuccess(post._id, response.data);
         }
     };
 
@@ -70,7 +70,7 @@ const Card = ({post, onSuccess}) => {
                     </div>
                 </section>
                 <hr />
-                <form className="post" onSubmit={onPostSubmit}>
+                <form className="post" onSubmit={onCommentSubmit}>
                     <InputBase
                         fullWidth
                         placeholder="Add a comment..."
