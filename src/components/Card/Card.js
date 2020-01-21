@@ -37,15 +37,10 @@ const Card = ({post, onSuccess}) => {
     const onPostSubmit = async (event) => {
         event.preventDefault();
         const response = await sendComment(localStorage.getItem('userId'), post._id, comment);
+        console.log(response);
         if (response.status >= 200 && response.status < 300) {
             setComment('');
-            onSuccess(post._id, {
-                timestamp: "2020-01-16T18:16:48.737Z",
-                _id: "5e2116c32725ae0568a7d63d",
-                userId: "5e1692a24010120bd049c058",
-                userName: "Danilo Scavassa",
-                comment: "Iabadabaduuuu!!"
-            });
+            onSuccess(post._id, response.data);
         }
     };
 
@@ -63,7 +58,7 @@ const Card = ({post, onSuccess}) => {
                 <img className="image" src={`data:image/jpeg;base64,${post.imgEncoded}`} alt={post.userName}></img>
                 <section className="body">
                     <div className="like">
-                        <Typography className="people" variant="body2">Liekd by {post.likes.length} people</Typography>
+                        <Typography className="people" variant="body2">Liked by {post.likes.length} people</Typography>
                         { isLiked ? <Favorite onClick={onFavoriteHandle} /> : <FavoriteBorder onClick={onFavoriteHandle} /> }
                     </div>
                     <div className="comments">

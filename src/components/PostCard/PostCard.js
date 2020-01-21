@@ -25,8 +25,9 @@ const PostCard = ({onSuccess}) => {
             setImage([]);
             setComment('');
             document.querySelector(".droparea button").click();
-            onSuccess();
+            onSuccess(response.data);
         }
+        console.log(response);
         setStatus(response.status);
         setIsloading(false);
         setSnackOpen(true);
