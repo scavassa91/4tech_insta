@@ -1,4 +1,5 @@
 import React, { Fragment, useEffect, useState, useCallback } from 'react';
+import io from 'socket.io-client';
 
 import Header from '../../components/Header/Header';
 import { Container } from '@material-ui/core';
@@ -10,6 +11,7 @@ import PostCard from '../../components/PostCard/PostCard';
 
 import './TimeLine.css';
 
+const socket = io('http://172.25.40.72:3000/');
 
 const TimeLine = () => {
     const [posts, setPosts] = useState([]);
@@ -17,6 +19,7 @@ const TimeLine = () => {
 
     const fetchPosts = useCallback(async (page = 0) => {
         const response = await getPosts(page);
+        console.log(response);
         if (response.status >= 200 && response.status < 300) {
             setPosts((posts) => {
                 return posts.concat(response.data);
@@ -66,6 +69,37 @@ const TimeLine = () => {
         });
         setPosts(newPosts);
     };
+
+    useEffect(() => {
+        console.log('called');
+
+        // TODO: Check how to know if event is up
+        socket.on('events', resp => {
+            const updatedPosts = posts.map(post => {
+                
+                if (post._id === resp.mediaId) {
+                    console.log('post founded')
+                    const foundLike = post.likes.find(like => like === resp.userId);
+
+                    let updatedLikes;
+                    if (foundLike) {
+                        console.log('like founded');
+                        updatedLikes = post.likes.find(like => like !== resp.userId);
+                    } else {
+                        console.log('like notfounded');
+                        updatedLikes = post.likes.concat(resp.userId);
+                    }
+                    return {
+                        ...post,
+                        likes: updatedLikes
+                    };
+                }
+                return post;
+            });
+
+            setPosts(updatedPosts);
+        });
+    }, [posts]);
 
     return (
         <Fragment>
