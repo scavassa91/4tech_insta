@@ -74,10 +74,8 @@ const TimeLine = () => {
             setPosts(oldPosts => {
                 return oldPosts.map(post => {
                     if (post._id === resp.mediaId) {
-                        const foundLike = post.likes.find(like => like === resp.userId);
-    
                         let updatedLikes;
-                        if (foundLike) {
+                        if (post.likes.includes(resp.userId)) {
                             updatedLikes = post.likes.filter(like => like !== resp.userId);
                         } else {
                             updatedLikes = post.likes.concat(resp.userId);
