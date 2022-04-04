@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { AppBar, Toolbar, Typography, Container, IconButton } from '@material-ui/core';
 import { ExitToApp } from '@material-ui/icons';
 
@@ -8,11 +8,11 @@ import { logout } from '../../services/auth';
 import './styles.css';
 
 const Header = () => {
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const onLogoutHandle = () => {
         logout();
-        history.push('/');
+        navigate('/');
     }
 
     return (
